@@ -1,5 +1,8 @@
 from scrapy.spider import BaseSpider
 from scrapy.selector import HtmlXPathSelector
+from hkaqhi.items import PollutantItem
+from datetime import datetime
+import re
 
 class Pollutant24Spider(BaseSpider):
     name = "pollutant24"
@@ -37,12 +40,51 @@ class Pollutant24Spider(BaseSpider):
         'Causeway Bay': '71',
         'Central': '79',
         'Mong Kok': '81'}
+    tl = '%Y-%m-%d %H:%M'
 
     def __init__(self):
         self.start_urls = self.generate_url()
 
     def parse(self, response):
-        pass
+        items = []
+        hxs = HtmlXPathSelector(response)
+        name = hxs.select('//div[@class="tilNormal"]//text()').extract()[0]
+        for r in hxs.select('//div[@id="cltNormal"]/table/tbody/tr'):
+            d = r.select('td/text()').extract()
+            if len(d) == 7:
+                item = PollutantItem()
+                item['name'] = name
+                item['id'] = self.newid[name]
+                item['stationid'] = self.oldid[name]
+	        item['time'] = int(datetime.strptime(re.sub('\xa0',' ',d[0]), self.tl).strftime('%s'))
+                for i in range(1,7):
+                    d[i] = re.sub('\,','',d[i])
+                try:
+                    item['no2'] = float(d[1])
+                except ValueError:
+                    pass
+                try:
+                    item['o3'] = float(d[2])
+                except ValueError:
+                    pass
+                try:
+                    item['so2'] = float(d[3])
+                except ValueError:
+                    pass
+                try:
+                    item['co'] = float(d[4])
+                except ValueError:
+                    pass
+                try:
+                    item['pm10'] = float(d[5])
+                except ValueError:
+                    pass
+                try:
+                    item['pm25'] = float(d[6])
+                except ValueError:
+                    pass
+                items.append(item)
+        return items
    
     def generate_url(self):
         start_url = []

@@ -17,5 +17,9 @@ $ source hkaqhi/bin/activate
 $ pip install scrapy  
 $ git clone https://github.com/sammyfung/hkaqhi.git  
 $ cd hkaqhi  
+
+To crawl past 24 hours of AQHI:
 $ scrapy crawl aqhi24 -t json -o aqhi24.json  
 
+To crawl past 24 hours of detailed pollutant concentration data:
+$ scrapy crawl pollutant24 -t json -o ~/pollutant24.json
