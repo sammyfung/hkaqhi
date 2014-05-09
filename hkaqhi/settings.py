@@ -13,3 +13,15 @@ NEWSPIDER_MODULE = 'hkaqhi.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'hkaqhi (+http://www.yourdomain.com)'
+
+import os, sys
+os.environ.setdefault("DJANGO_SETTINGS_MODULE","airqdata.settings")
+path = os.path.join(os.path.dirname(__file__),'../airqdata')
+sys.path.append(os.path.abspath(path))
+from django.conf import settings
+
+ITEM_PIPELINES = {
+  'hkaqhi.pipelines.HkaqhiPipeline': 300,
+}
+
+

@@ -1,6 +1,6 @@
 from scrapy.spider import BaseSpider
 from scrapy.selector import HtmlXPathSelector
-from hkaqhi.items import PollutantItem
+from hkaqhi.items import AirQualityItem
 from datetime import datetime
 import re
 
@@ -52,11 +52,11 @@ class Pollutant24Spider(BaseSpider):
         for r in hxs.select('//div[@id="cltNormal"]/table/tbody/tr'):
             d = r.select('td/text()').extract()
             if len(d) == 7:
-                item = PollutantItem()
+                item = AirQualityItem()
                 item['name'] = name
-                item['id'] = self.newid[name]
+                item['stationcode'] = self.newid[name]
                 item['stationid'] = self.oldid[name]
-	        item['time'] = int(datetime.strptime(re.sub('\xa0',' ',d[0]), self.tl).strftime('%s'))
+	        item['reptime'] = datetime.strptime(re.sub('\xa0',' ',d[0]), self.tl)
                 for i in range(1,7):
                     d[i] = re.sub('\,','',d[i])
                 try:

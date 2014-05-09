@@ -1,5 +1,5 @@
 from scrapy.contrib.spiders import XMLFeedSpider
-from hkaqhi.items import HkaqhiItem
+from hkaqhi.items import AirQualityItem
 from datetime import datetime
 
 class Aqhi24Spider(XMLFeedSpider):
@@ -42,12 +42,15 @@ class Aqhi24Spider(XMLFeedSpider):
         'Mong Kok': '81'}
 
     def parse_node(self, response, selector):
-        i = HkaqhiItem()
+        i = AirQualityItem()
         i['stationtype'] = selector.select('type/text()').extract()[0]
         i['name'] = selector.select('StationName/text()').extract()[0]
-        i['time'] = int(datetime.strptime(selector.select('DateTime/text()').extract()[0], self.tl).strftime('%s'))
-        i['aqhi'] = selector.select('aqhi/text()').extract()[0]
-        i['id'] = self.newid[i['name']]
+        i['reptime'] = datetime.strptime(selector.select('DateTime/text()').extract()[0], self.tl)
+        try:
+          i['aqhi'] = int(selector.select('aqhi/text()').extract()[0])
+        except ValueError:
+          pass
+        i['stationcode'] = self.newid[i['name']]
         i['stationid'] = self.oldid[i['name']]
         return i
 
