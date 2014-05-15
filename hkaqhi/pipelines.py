@@ -9,7 +9,7 @@ from airquality.models import AirQuality
 class HkaqhiPipeline(object):
     def process_item(self, item, spider):
       if spider.name == 'pollutant24':
-        if AirQuality.objects.filter(reptime = item['reptime'], stationid=item['stationid'], stationtype__isnull = True):
+        if AirQuality.objects.filter(reptime = item['reptime'], stationid=item['stationid'], stationtype__isnull = False):
           obj = AirQuality.objects.filter(reptime = item['reptime'], stationid=item['stationid'])
           try:
             obj.update(no2=item['no2'])
