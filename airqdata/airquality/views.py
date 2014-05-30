@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from airquality.models import AirQuality
-from datetime import datetime
+from datetime import datetime, timedelta
 import json, pytz
 
 def hourly_data(request):
@@ -12,4 +12,16 @@ def hourly_data(request):
     json_data[station['stationcode']] = station
     hkt = pytz.timezone('Asia/Hong_Kong')
     json_data[station['stationcode']]['reptime'] = station['reptime'].astimezone(hkt).__str__()
+  return HttpResponse(json.dumps(json_data), content_type="application/json")
+
+def station_data(request):
+  request_id = request.GET.get('id',0)
+  current_time = datetime.now() - timedelta(days=1)
+  json_data = {}
+  i = 0
+  for hourly in AirQuality.objects.values().filter(stationid = request_id, reptime__gte = current_time):
+    json_data[i] = hourly
+    hkt = pytz.timezone('Asia/Hong_Kong')
+    json_data[i]['reptime'] = hourly['reptime'].astimezone(hkt).__str__()
+    i += 1
   return HttpResponse(json.dumps(json_data), content_type="application/json")
