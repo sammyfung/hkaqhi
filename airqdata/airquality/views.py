@@ -10,9 +10,6 @@ def hourly_data(request):
     latest_time = AirQuality.objects.order_by('-reptime')[0].reptime.__str__()
   for station in AirQuality.objects.values().filter(reptime = latest_time):
     json_data[station['stationcode']] = station
-<<<<<<< HEAD
-    json_data[station['stationcode']]['reptime'] = station['reptime'] + datetime.timedelta(hours=8)
-=======
     hkt = pytz.timezone('Asia/Hong_Kong')
     json_data[station['stationcode']]['reptime'] = station['reptime'].astimezone(hkt).__str__()
   return HttpResponse(json.dumps(json_data), content_type="application/json")
@@ -27,5 +24,4 @@ def station_data(request):
     hkt = pytz.timezone('Asia/Hong_Kong')
     json_data[i]['reptime'] = hourly['reptime'].astimezone(hkt).__str__()
     i += 1
->>>>>>> 8fd5b619726cd673435d104c067fa1c60ef1512a
   return HttpResponse(json.dumps(json_data), content_type="application/json")
