@@ -6,8 +6,6 @@ class Aqhi24Spider(XMLFeedSpider):
     name = 'aqhi24'
     allowed_domains = ['aqhi.gov.hk']
     start_urls = ['http://www.aqhi.gov.hk/epd/ddata/html/out/24aqhi_Eng.xml']
-    #iterator = 'iternodes' # you can change this; see the docs
-    #itertag = 'item' 
     itertag = 'item'
     tl = '%a, %d %b %Y %X +0800'
     newid = {'Central/Western': '45fd',
@@ -49,9 +47,8 @@ class Aqhi24Spider(XMLFeedSpider):
         try:
           i['aqhi'] = int(selector.select('aqhi/text()').extract()[0])
         except ValueError:
-          pass
+          if selector.select('aqhi/text()').extract()[0] == "10+":
+            i['aqhi']=11
         i['stationcode'] = self.newid[i['name']]
         i['stationid'] = self.oldid[i['name']]
         return i
-
-
