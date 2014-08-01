@@ -1,10 +1,10 @@
-from scrapy.spider import BaseSpider
+from scrapy.spider import Spider
 from scrapy.selector import HtmlXPathSelector
 from hkaqhi.items import AirQualityItem
 from datetime import datetime
 import re
 
-class Pollutant24Spider(BaseSpider):
+class Pollutant24Spider(Spider):
     name = "pollutant24"
     allowed_domains = ["aqhi.gov.hk"]
     #start_urls = (
