@@ -19,6 +19,8 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE","airqdata.settings")
 path = os.path.join(os.path.dirname(__file__),'../airqdata')
 sys.path.append(os.path.abspath(path))
 from django.conf import settings
+import django
+django.setup()
 
 ITEM_PIPELINES = {
   'hkaqhi.pipelines.HkaqhiPipeline': 300,
