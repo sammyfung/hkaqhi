@@ -4,7 +4,7 @@
 # See: http://doc.scrapy.org/topics/item-pipeline.html
 
 from scrapy.exceptions import DropItem
-from airquality.models import AirQuality
+from openweather.models import AirQuality
 
 class HkaqhiPipeline(object):
     def process_item(self, item, spider):

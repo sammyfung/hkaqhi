@@ -5,7 +5,7 @@
 
 from scrapy.item import Item, Field
 from scrapy.contrib.djangoitem import DjangoItem
-from airquality.models import AirQuality
+from openweather.models import AirQuality
 
 class HkaqhiItem(Item):
     stationtype = Field()
