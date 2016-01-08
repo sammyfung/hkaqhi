@@ -4,7 +4,7 @@
 # http://doc.scrapy.org/topics/items.html
 
 from scrapy.item import Item, Field
-from scrapy.contrib.djangoitem import DjangoItem
+from scrapy_djangoitem import DjangoItem
 from openweather.models import AirQuality
 
 class HkaqhiItem(Item):
