@@ -56,7 +56,7 @@ class Pollutant24Spider(Spider):
                 item['name'] = name
                 item['stationcode'] = self.newid[name]
                 item['stationid'] = self.oldid[name]
-	        item['reptime'] = datetime.strptime(re.sub('\xa0',' ',d[0]), self.tl)
+	            item['reptime'] = datetime.strptime(re.sub('\xa0',' ',d[0]), self.tl)
                 for i in range(1,7):
                     d[i] = re.sub('\,','',d[i])
                 try:
