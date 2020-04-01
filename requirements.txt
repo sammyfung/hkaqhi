@@ -1,4 +1,4 @@
-Django==1.5.1
+Django==1.11.28
 Scrapy==0.16.5
 Twisted==13.0.0
 argparse==1.2.1
