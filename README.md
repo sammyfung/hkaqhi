@@ -1,3 +1,5 @@
+[![hkaqhi](https://github.com/sammyfung/hkaqhi/actions/workflows/hkaqhi.yml/badge.svg)](https://github.com/sammyfung/hkaqhi/actions/workflows/hkaqhi.yml) [![codecov](https://codecov.io/gh/sammyfung/hkaqhi/graph/badge.svg?token=G5DVA9F2LH)](https://codecov.io/gh/sammyfung/hkaqhi)
+
 hkaqhi
 ======
 
