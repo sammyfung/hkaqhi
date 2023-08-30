@@ -1,0 +1,57 @@
+name: HK_Lic_Restaurants
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron:  '5 9 1 * *'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 coverage
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Test and list the available scrapers
+      run: |
+        coverage run -m scrapy list
+      working-directory: hkaqhi
+    - name: Test the HK 24-hr AQHI web scraper
+      run: |
+        coverage run -a -m scrapy crawl aqhi24 -o aqhi24.json
+      working-directory: hkaqhi
+    - name: Test the HK 24-hr pollutant concentration data web scraper
+      run: |
+        coverage run -a -m scrapy crawl pollutant24 -o pollutant24.json
+      working-directory: hkaqhi
+    - name: Generate coverage json report
+      run: |
+        coverage json
+      working-directory: hkaqhi
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      with:
+        directory: hkaqhi

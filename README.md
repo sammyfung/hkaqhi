@@ -14,7 +14,7 @@ $ python3 -m venv venv
 $ source venv/bin/activate  
 $ pip install -r requirements.txt   
 ```
-Crawling
+Quickstart
 --------
 
 To crawl past 24 hours of AQHI and append to an output file in json format:
@@ -24,5 +24,5 @@ $ scrapy crawl aqhi24 -o aqhi24.json
 
 To crawl past 24 hours of detailed pollutant concentration data and append to an output file in json format:  
 ```
-$ scrapy crawl pollutant24 -o ~/pollutant24.json
+$ scrapy crawl pollutant24 -o pollutant24.json
 ```
