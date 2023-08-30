@@ -1,8 +1,6 @@
 from scrapy.spiders import Spider
 from scrapy.selector import Selector
 from hkaqhi.items import HkaqhiItem
-#PollutantItem
-#AirQualityItem
 from datetime import datetime
 import re
 from hkaqhi.epdstations import EPDStations
